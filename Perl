@@ -1,0 +1,114 @@
+diagnose :-
+    diagnose_for(Plant_disease),
+    write('The probable disease is '),
+    write(Plant_disease),
+    nl,
+    undo.
+diagnose :-
+    write('Sorry, I can not be able to diagnose the disease.'),
+    nl.
+
+diagnose_for(bacterial_wilt):- bacterial_wilt.
+diagnose_for(powdery_scab):- powdery_scab.
+diagnose_for(potato_wart):- potato_wart.
+diagnose_for(late_blight):- late_blight.
+diagnose_for(black_scruf):- black_scruf.
+diagnose_for(potato_blackleg):- potato_blackleg .
+diagnose_for(early_blight):- early_blight.
+diagnose_for(pink_rot):- pink_rot.
+diagnose_for(common_scab):- common_scab.
+diagnose_for(viruses):- viruses.
+
+bacterial_wilt :-
+    check_symptom('Yellowing of leaves from the base'),
+    check_symptom('Brown ring when stem is cut'),
+    check_symptom('Wilting starting from leaves tips or branches spreading to all plant parts'),
+    check_symptom('Fluid oozing from tuber eyes'),
+    nl.
+
+powdery_scab:-
+    check_symptom('White-brown galls on roots and stolon'),
+    check_symptom('Raised pustules on tuber surrounded by potato skin'),
+    check_symptom('Shallow depressions on tuber filled with brown spores'),
+    nl.
+
+
+potato_wart :-
+    check_symptom('On tubers and stolons, eyes develop cauliflower-like swellings'),
+    check_symptom('Small greenish warts form in the position of the aerial buds at the stem bases'),
+    check_symptom('Stems darken'),
+    nl.
+
+late_blight :-
+    check_symptom('Leaves turn brown or black when drying out'),
+    check_symptom('Blistered leaves that eventually rot and dry out'),
+    check_symptom('Tubers display dry brown spots on their skins and flesh'),
+    check_symptom('Spots appear on the underside of leaves blanketed with flour-like substances'),
+    check_symptom('	Stems begin to blacken from their tips and eventually dry out'),
+    nl.
+
+black_scruf:-
+    check_symptom('Flat irregular shaped black fungal fruiting bodies on tuber surface'),
+    check_symptom('Tubers may be misshaped'),
+    check_symptom('Red-brown to black sunken lesions on sprouts'),
+    check_symptom('Lesions girdle the main stem causing leaves to curl and turn yellow'),
+    nl.
+
+potato_blackleg:-
+    check_symptom('Small water soaked lesions on base of the stems originating from seed piece'),
+    check_symptom('Soft and water soaked tissues that are lightly black to inky brown'),
+    check_symptom('Wilty and curled leaves with soft and slimy texture when wet'),
+    nl.
+
+early_blight:-
+    check_symptom('Dark lesions with yellow border forms on the leaves and stems'),
+    check_symptom('Leaves become necrotic but remain attached to the plant'),
+    check_symptom('Dark, dry lesions on tubers with leathery or corky texture and watery yellow green margins'),
+    nl.
+
+pink_rot:-
+    check_symptom('Stunted plant growth'),
+    check_symptom('Wilting leaves and chlorosis'),
+    check_symptom('Marked tuber decay'),
+    nl.
+
+common_scab:-
+    check_symptom('Raised brown lesions on tubers with corky texture'),
+    check_symptom('Deep pitted brown or black lesiona on tuber with straw-colored translucent tissue underneath'),
+    check_symptom('Rough, cracked skin, with scab-like spots on tubers'),
+    check_symptom('Potato skins covered with black welts'),
+    nl.
+
+viruses:-
+    check_symptom('Chlorotic mosaics'),
+    check_symptom('Leaf deformation'),
+    check_symptom('Reduced leaflet size'),
+    check_symptom('Reduction in vigor'),
+    check_symptom('Stunted plant growth'),
+    nl.
+check_symptom(X) :-
+    (yes(X) -> true;
+    (no(X) -> fail;
+    ask_question(X))).
+
+ask_question(Symptom) :-
+    write('Does your potato have the symptom '),
+    write(Symptom),
+    write('? yes/no '),
+    nl,
+    read(Input),
+    nl,
+    ((Input == yes ; Input ==y) ->
+    assert(yes(Symptom));
+    assert(no(Symptom)),fail).
+
+:- dynamic yes/1 , no/1 .
+
+undo :-retract(yes(_)),fail.
+undo :-retract(no(_)),fail.
+undo.
+
+
+
+
+
